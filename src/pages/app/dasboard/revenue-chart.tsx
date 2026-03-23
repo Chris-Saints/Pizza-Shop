@@ -8,6 +8,7 @@ import type { DateRange } from "react-day-picker";
 import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip} from 'recharts'
 import  colors  from 'tailwindcss/colors'
 import { subDays } from 'date-fns'
+import { Loader2 } from "lucide-react";
 
 export function RevenueChart() {
 
@@ -50,17 +51,23 @@ export function RevenueChart() {
                 </div>
             </CardHeader>
             <CardContent>
-                {dailyRevenueInPeriod && (
-                    <ResponsiveContainer width="100%" height={240}>
-                        <LineChart data={chartData} style={{ fontSize: 12 }}>
-                            <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16}/>
-                            <YAxis stroke="#888" axisLine={false} tickLine={false} width={80} tickFormatter={(value: number) => value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} />
+                {dailyRevenueInPeriod 
+                    ? (
+                        <ResponsiveContainer width="100%" height={240}>
+                            <LineChart data={chartData} style={{ fontSize: 12 }}>
+                                <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16}/>
+                                <YAxis stroke="#888" axisLine={false} tickLine={false} width={80} tickFormatter={(value: number) => value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} />
 
-                            <Line type="linear" stroke={colors.violet['500']} strokeWidth={2} dataKey="receipt" />
-                            <CartesianGrid vertical={false} className="stroke-muted" />
-                        </LineChart>
-                    </ResponsiveContainer>
-                )}
+                                <Line type="linear" stroke={colors.violet['500']} strokeWidth={2} dataKey="receipt" />
+                                <CartesianGrid vertical={false} className="stroke-muted" />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <div className="flex h-[240px] w-full items-center justify-center">
+                            <Loader2 className="h-8 w-8 text-muted-foreground animate-spin" />
+                        </div>
+                    )
+                }
             </CardContent>
         </Card>
     )
